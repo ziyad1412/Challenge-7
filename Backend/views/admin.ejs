@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard</title>
+    <!-- Tautan Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Admin Dashboard</h1>
+      <div class="row mb-3">
+        <div class="col">
+          <button
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#addModal"
+          >
+            Add New
+          </button>
+        </div>
+      </div>
+      <table id="adminTable" class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Plate</th>
+            <th>manufacture</th>
+            <th>model</th>
+            <th>image</th>
+            <th>rentPerDay</th>
+            <th>capacity</th>
+            <th>Description</th>
+            <th>Transmission</th>
+            <th>available</th>
+            <th>type</th>
+            <th>year</th>
+            <th>options</th>
+            <th>specs</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Isi tabel akan dimanipulasi dengan JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal untuk tambah data -->
+    <div
+      class="modal fade"
+      id="addModal"
+      tabindex="-1"
+      aria-labelledby="addModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addModalLabel">Add New Data</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- Form untuk tambah data -->
+            <form id="adminForm">
+              <div class="form-group">
+                <label for="plateInput">Plate</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="plateInput"
+                  name="plate"
+                  placeholder="Enter Plate"
+                />
+              </div>
+              <!-- Tambahkan input untuk kolom lainnya -->
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tautan Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <!-- JavaScript untuk interaksi dengan API dan manipulasi DOM -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Ganti dengan endpoint URL yang sesuai
+        const apiUrl = "http://localhost:3000/cars";
+
+        // Function untuk mengambil data dari API dan menampilkan dalam tabel
+        async function fetchAndDisplayData() {
+          try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            // Bersihkan konten tabel sebelum menambahkan data baru
+            const tableBody = document.querySelector("#adminTable tbody");
+            tableBody.innerHTML = "";
+
+            // Loop melalui data dan tambahkan ke dalam tabel
+            data.forEach((car) => {
+              const row = `
+                  <tr>
+                    <td>${car.id}</td>
+                    <td>${car.plate}</td>
+                    <td>${car.manufacture}</td>
+                    <td>${car.model}</td>
+                    <td>${car.image}</td>
+                    <td>${car.rentPerDay}</td>
+                    <td>${car.capacity}</td>
+                    <td>${car.description}</td>
+                    <td>${car.transmission}</td>
+                    <td>${car.available}</td>
+                    <td>${car.type}</td>
+                    <td>${car.year}</td>
+                    <td>${car.options}</td>
+                    <td>${car.specs}</td>
+                    <td>
+                        <button class="btn btn-info btn-sm readBtn" data-id="${car.id}">Read</button>
+                      <button class="btn btn-info btn-sm editBtn" data-id="${car.id}">Edit</button>
+                      <button class="btn btn-danger btn-sm deleteBtn" data-id="${car.id}">Delete</button>
+                    </td>
+                  </tr>
+                `;
+              tableBody.innerHTML += row;
+            });
+
+            // Tambahkan event listener untuk tombol Edit dan Delete
+            const editButtons = document.querySelectorAll(".editBtn");
+            const deleteButtons = document.querySelectorAll(".deleteBtn");
+
+            editButtons.forEach((button) => {
+              button.addEventListener("click", handleEdit);
+            });
+
+            deleteButtons.forEach((button) => {
+              button.addEventListener("click", handleDelete);
+            });
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        }
+
+        // Panggil fungsi untuk mengambil dan menampilkan data saat halaman dimuat
+        fetchAndDisplayData();
+
+        // Function untuk menangani tombol Edit
+        async function handleEdit(event) {
+          const carId = event.target.dataset.id;
+          // Lakukan operasi edit atau tampilkan form edit
+          // Implementasi operasi edit sesuai dengan kebutuhan Anda
+          console.log(`Edit car with ID: ${carId}`);
+        }
+
+        // Function untuk menangani tombol Delete
+        async function handleDelete(event) {
+          const carId = event.target.dataset.id;
+          // Lakukan operasi hapus
+          // Implementasi operasi hapus sesuai dengan kebutuhan Anda
+          console.log(`Delete car with ID: ${carId}`);
+        }
+      });
+    </script>
+  </body>
+</html>

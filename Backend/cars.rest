@@ -1,0 +1,48 @@
+### GET All Cars
+GET http://localhost:3000/cars
+
+### GET Car by ID
+GET http://localhost:3000/cars/1
+
+### POST Create a Car
+POST http://localhost:3000/cars
+Content-Type: application/json
+
+{
+  "plate": "DBH-3495",
+  "manufacture": "Fordd",
+  "model": "F152",
+  "image": "./images/car01.min.jpg",
+  "rentPerDay": 200000,
+  "capacity": 2,
+  "description": "Brake assist. Leather-wrapped shift knob. Glove box lamp. Air conditioning w/in-cabin microfilter.",
+  "availableAt": "2023-03-23T15:49:05.563Z",
+  "transmission": "Automatic",
+  "available": true,
+  "type": "Sedan",
+  "year": 2022,
+  "options": [
+    "Cruise Control",
+    "Tinted Glass",
+    "Tinted Glass",
+  ],
+  "specs": [
+    "Brake assist",
+    "Leather-wrapped shift knob",
+    "Air conditioning w/in-cabin microfilter",
+    "Body color folding remote-controlled pwr mirrors",
+    "Dual-stage front airbags w/occupant classification system"
+  ]
+}
+
+
+### PATCH Update a Car
+PATCH http://localhost:3000/cars/1
+Content-Type: application/json
+
+{
+  "plate": "DEF456"
+}
+
+### DELETE a Car
+DELETE http://localhost:3000/cars/20
